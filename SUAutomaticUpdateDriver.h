@@ -19,7 +19,6 @@
 	BOOL showErrors;
 	BOOL willUpdateOnTermination;
 	SUAutomaticUpdateAlert *alert;
-    NSTimer *showUpdateAlertTimer;
 }
 
 @end

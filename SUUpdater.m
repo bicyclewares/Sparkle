@@ -329,6 +329,13 @@ static NSString * const SUUpdaterDefaultsObservationContext = @"SUUpdaterDefault
     // If we're not given a driver at all, just schedule the next update check and bail.
     if (!driver)
     {
+        if ([delegate respondsToSelector:@selector(updaterCriticalUpdateIsAvailable:)] && [delegate updaterCriticalUpdateIsAvailable:self]) {
+            if ([delegate respondsToSelector:@selector(updaterCriticalUpdateCouldNotBeAccessed)]) {
+                [delegate updaterCriticalUpdateCouldNotBeAccessed];
+            }
+        }
+            
+        
         [self scheduleNextUpdateCheck];
         return;
     }

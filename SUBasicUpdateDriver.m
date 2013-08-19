@@ -393,6 +393,13 @@
 
 - (void)abortUpdate
 {
+    if (updateItem.isCriticalUpdate ||
+        ([updater.delegate respondsToSelector:@selector(updaterCriticalUpdateIsAvailable:)] && [updater.delegate updaterCriticalUpdateIsAvailable:updater])) {
+        if ([updater.delegate respondsToSelector:@selector(updaterCriticalUpdateCouldNotBeAccessed)]) {
+            [updater.delegate updaterCriticalUpdateCouldNotBeAccessed];
+        }
+    }
+    
 	[[self retain] autorelease];	// In case the notification center was the last one holding on to us.
     [self cleanUpDownload];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];

@@ -12,9 +12,6 @@
 #import "SUHost.h"
 #import "SUConstants.h"
 
-// If the user hasn't quit in a week, ask them if they want to relaunch to get the latest bits. It doesn't matter that this measure of "one day" is imprecise.
-static const NSTimeInterval SUAutomaticUpdatePromptImpatienceTimer = 60 * 60 * 24 * 7;
-
 @implementation SUAutomaticUpdateDriver
 
 - (void)showUpdateAlert
@@ -48,32 +45,10 @@ static const NSTimeInterval SUAutomaticUpdatePromptImpatienceTimer = 60 * 60 * 2
     }
 
     willUpdateOnTermination = YES;
-
-    if ([[updater delegate] respondsToSelector:@selector(updater:willInstallUpdateOnQuit:immediateInstallationInvocation:)])
-    {
-        BOOL relaunch = YES;
-        BOOL showUI = NO;
-        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[[self class] instanceMethodSignatureForSelector:@selector(installWithToolAndRelaunch:displayingUserInterface:)]];
-        [invocation setSelector:@selector(installWithToolAndRelaunch:displayingUserInterface:)];
-        [invocation setArgument:&relaunch atIndex:2];
-        [invocation setArgument:&showUI atIndex:3];
-        [invocation setTarget:self];
-
-        [[updater delegate] updater:updater willInstallUpdateOnQuit:updateItem immediateInstallationInvocation:invocation];
-    }
-
-    // If this is marked as a critical update, we'll prompt the user to install it right away. 
-    if ([updateItem isCriticalUpdate])
-    {
-        [self showUpdateAlert];
-    }
-    else
-    {
-        showUpdateAlertTimer = [[NSTimer scheduledTimerWithTimeInterval:SUAutomaticUpdatePromptImpatienceTimer target:self selector:@selector(showUpdateAlert) userInfo:nil repeats:NO] retain];
-
-        // At this point the driver is idle, allow it to be interrupted for user-initiated update checks.
-        isInterruptible = YES;
-    }
+    
+    // apply the update
+    [self stopUpdatingOnTermination];
+    [self installWithToolAndRelaunch:YES displayingUserInterface:NO];
 }
 
 - (void)stopUpdatingOnTermination
@@ -92,17 +67,9 @@ static const NSTimeInterval SUAutomaticUpdatePromptImpatienceTimer = 60 * 60 * 2
     }
 }
 
-- (void)invalidateShowUpdateAlertTimer
-{
-    [showUpdateAlertTimer invalidate];
-    [showUpdateAlertTimer release];
-    showUpdateAlertTimer = nil;    
-}
-
 - (void)dealloc
 {
     [self stopUpdatingOnTermination];
-    [self invalidateShowUpdateAlertTimer];
     [alert release];
     [super dealloc];
 }
@@ -110,7 +77,6 @@ static const NSTimeInterval SUAutomaticUpdatePromptImpatienceTimer = 60 * 60 * 2
 - (void)abortUpdate
 {
     [self stopUpdatingOnTermination];
-    [self invalidateShowUpdateAlertTimer];
     [super abortUpdate];
 }
 

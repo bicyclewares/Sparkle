@@ -60,26 +60,12 @@
 
 - (NSString *)titleText
 {
-    if ([updateItem isCriticalUpdate])
-    {
-        return [NSString stringWithFormat:SULocalizedString(@"An important update to %@ is ready to install", nil)];
-    }
-    else
-    {
-        return [NSString stringWithFormat:SULocalizedString(@"A new version of %@ is ready to install!", nil), [host name]];
-    }
+    return [NSString stringWithFormat:SULocalizedString(@"A new version of %@ is ready to install!", nil), [host name]];
 }
 
 - (NSString *)descriptionText
 {
-    if ([updateItem isCriticalUpdate])
-    {
-        return [NSString stringWithFormat:SULocalizedString(@"%1$@ %2$@ has been downloaded and is ready to use! This is an important update; would you like to install it and relaunch %1$@ now?", nil), [host name], [updateItem displayVersionString]];
-    }
-    else
-    {
-        return [NSString stringWithFormat:SULocalizedString(@"%1$@ %2$@ has been downloaded and is ready to use! Would you like to install it and relaunch %1$@ now?", nil), [host name], [updateItem displayVersionString]];
-    }
+    return [NSString stringWithFormat:SULocalizedString(@"%1$@ %2$@ has been downloaded and is ready to use! Would you like to install it and relaunch %1$@ now?", nil), [host name], [updateItem displayVersionString]];
 }
 
 @end
