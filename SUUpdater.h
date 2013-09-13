@@ -143,6 +143,8 @@
 - (BOOL)updaterCriticalUpdateIsAvailable:(SUUpdater *)updater;
 - (void)updaterCriticalUpdateCouldNotBeAccessed;
 
+- (BOOL)updater:(SUUpdater *)updater doesSupportProtocolVersion:(NSString *)protocolVersion;
+
 @end
 
 

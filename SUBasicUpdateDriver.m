@@ -66,6 +66,13 @@
 
 - (BOOL)hostSupportsItem:(SUAppcastItem *)ui
 {
+    if ([ui protocolVersion] && [[updater delegate] respondsToSelector:@selector(updater:doesSupportProtocolVersion:)])
+    {
+        if (![[updater delegate] updater:updater doesSupportProtocolVersion:[ui protocolVersion]]) {
+            return NO;
+        }
+    }
+    
 	if (([ui minimumSystemVersion] == nil || [[ui minimumSystemVersion] isEqualToString:@""]) && 
         ([ui maximumSystemVersion] == nil || [[ui maximumSystemVersion] isEqualToString:@""])) { return YES; }
     

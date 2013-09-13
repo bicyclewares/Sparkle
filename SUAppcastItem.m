@@ -114,6 +114,14 @@
 	maximumSystemVersion = [systemVersionString copy];
 }
 
+- (NSString *)protocolVersion { return [[protocolVersion retain] autorelease]; }
+- (void)setProtocolVersion:(NSString *)protocolVersionString;
+{
+	if (protocolVersion == protocolVersionString) return;
+	[protocolVersion release];
+	protocolVersion = [protocolVersionString copy];
+}
+
 
 - (NSURL *)infoURL	{ return [[infoURL retain] autorelease]; }	// UK 2007-08-31 (whole method)
 
@@ -224,6 +232,7 @@
 		[self setVersionString: newVersion];
 		[self setMinimumSystemVersion: [dict objectForKey:@"sparkle:minimumSystemVersion"]];
         [self setMaximumSystemVersion: [dict objectForKey:@"sparkle:maximumSystemVersion"]];
+        [self setProtocolVersion:[dict objectForKey:@"sparkle:protocolVersion"]];
 		
 		NSString *shortVersionString = [enclosure objectForKey:@"sparkle:shortVersionString"];
         if (nil == shortVersionString)
