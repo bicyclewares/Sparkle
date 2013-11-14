@@ -1,4 +1,4 @@
 // Relaunch Tool only
 
-PRODUCT_NAME = finish_installation
+PRODUCT_NAME = Knock Update Installer
 SKIP_INSTALL = YES
