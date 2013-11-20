@@ -50,9 +50,9 @@
     [self stopUpdatingOnTermination];
     
     NSFileManager *fm = [NSFileManager defaultManager];
-    NSString *applicationsDirectory = [NSSearchPathForDirectoriesInDomains(NSApplicationDirectory, NSLocalDomainMask, YES) lastObject];
-    // Check if we need admin password to write to the Applications directory
-    BOOL needAuthorization = ([fm isWritableFileAtPath:applicationsDirectory] == NO);
+    NSString *installPath = [host installationPath];
+    // Check if we need admin password to install the app
+    BOOL needAuthorization = ([fm isWritableFileAtPath:installPath] == NO);
         
     if (needAuthorization) {
         [self showUpdateAlert];
