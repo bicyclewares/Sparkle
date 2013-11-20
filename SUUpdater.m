@@ -401,6 +401,11 @@ static NSString * const SUUpdaterDefaultsObservationContext = @"SUUpdaterDefault
     [self performSelector:@selector(resetUpdateCycle) withObject:nil afterDelay:1];
 }
 
+- (BOOL)automaticallyChecksForUpdatesIsSet;
+{
+	return [host objectForUserDefaultsKey:SUEnableAutomaticChecksKey];
+}
+
 - (BOOL)automaticallyChecksForUpdates
 {
 	// Don't automatically update when the check interval is 0, to be compatible with 1.1 settings.
