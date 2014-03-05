@@ -343,8 +343,8 @@
 		[self abortUpdateWithError:[NSError errorWithDomain:SUSparkleErrorDomain code:SURelaunchError userInfo:[NSDictionary dictionaryWithObjectsAndKeys:SULocalizedString(@"An error occurred while extracting the archive. Please try again later.", nil), NSLocalizedDescriptionKey, [NSString stringWithFormat:@"Couldn't copy relauncher (%@) to temporary path (%@)! %@", relaunchPathToCopy, targetPath, (error ? [error localizedDescription] : @"")], NSLocalizedFailureReasonErrorKey, nil]]];
 	
     [[NSNotificationCenter defaultCenter] postNotificationName:SUUpdaterWillRestartNotification object:self];
-    if ([[updater delegate] respondsToSelector:@selector(updaterWillRelaunchApplication:)])
-        [[updater delegate] updaterWillRelaunchApplication:updater];
+    if ([[updater delegate] respondsToSelector:@selector(updaterWillRelaunchApplication:withInstallUpdate:)])
+        [[updater delegate] updaterWillRelaunchApplication:updater withInstallUpdate:updateItem];
 
     if(!relaunchPath || ![[NSFileManager defaultManager] fileExistsAtPath:relaunchPath])
     {

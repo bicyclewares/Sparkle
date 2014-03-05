@@ -121,7 +121,7 @@
 - (BOOL)updaterShouldRelaunchApplication:(SUUpdater *)updater;
 
 // Called immediately before relaunching.
-- (void)updaterWillRelaunchApplication:(SUUpdater *)updater;
+- (void)updaterWillRelaunchApplication:(SUUpdater *)updater withInstallUpdate:(SUAppcastItem *)update;
 
 // This method allows you to provide a custom version comparator.
 // If you don't implement this method or return nil, the standard version comparator will be used.
